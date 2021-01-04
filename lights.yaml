@@ -1,0 +1,85 @@
+light:
+  - platform: template
+    lights:
+      toggle_light:
+        friendly_name: "Toggle Lights"
+        turn_on:
+          service: system_log.write
+          data:
+            message: "Toggle Light turned on"
+        turn_off:
+          service: system_log.write
+          data:
+            message: "Toggle Light turned off"
+      dimmable_light:
+        friendly_name: "Dimmable Lights"
+        turn_on:
+          service: system_log.write
+          data:
+            message: "Dimmable Light turned on"
+        turn_off:
+          service: system_log.write
+          data:
+            message: "Dimmable Light turned off"
+        set_level:
+          service: system_log.write
+          data:
+            message: "Dimmable Light brightness set to {{ brightness }}"
+      ct_light:
+        friendly_name: "CT Lights"
+        turn_on:
+          service: system_log.write
+          data:
+            message: "CT Light turned on"
+        turn_off:
+          service: system_log.write
+          data:
+            message: "CT Light turned off"
+        set_level:
+          service: system_log.write
+          data:
+            message: "CT Light brightness set to {{ brightness }}"
+        set_temperature:
+          service: system_log.write
+          data:
+            message: "CT Light color temp set to {{ color_temp }}"
+      rgb_light:
+        friendly_name: "RGB Lights"
+        turn_on:
+          service: system_log.write
+          data:
+            message: "RGB Light turned on"
+        turn_off:
+          service: system_log.write
+          data:
+            message: "RGB Light turned off"
+        set_level:
+          service: system_log.write
+          data:
+            message: "RGB Light brightness set to {{ brightness }}"
+        set_color:
+          service: system_log.write
+          data:
+            message: "RGB Light h set to {{ h }}, s set to {{ s }}"
+      rgbww_light:
+        friendly_name: "RGBWW Lights"
+        turn_on:
+          service: system_log.write
+          data:
+            message: "RGBWW Light turned on"
+        turn_off:
+          service: system_log.write
+          data:
+            message: "RGBWW Light turned off"
+        set_level:
+          service: system_log.write
+          data:
+            message: "RGBWW Light brightness set to {{ brightness }}"
+        set_temperature:
+          service: system_log.write
+          data:
+            message: "RGBWW Light color temp set to {{ color_temp }}"
+        set_color:
+          service: system_log.write
+          data:
+            message: "RGBWW Light h set to {{ h }}, s set to {{ s }}"
