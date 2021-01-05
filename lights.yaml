@@ -1,85 +1,168 @@
+input_boolean:
+  toggle_light:
+    name: Toggle Light Power
+  dimmable_light:
+    name: Dimmable Light Power
+  ct_light:
+    name: CT Light Power
+  rgb_light:
+    name: RGB Light Power
+  rgbww_light:
+    name: RGBWW Light Power
+
+input_number:
+  dimmable_light_bri:
+    name: Dimmable Light Brightness
+    min: 0
+    max: 255
+  ct_light_bri:
+    name: CT Light Brightness
+    min: 0
+    max: 255
+  rgb_light_bri:
+    name: RGB Light Brightness
+    min: 0
+    max: 255
+  rgbww_light_bri:
+    name: RGBWW Light Brightness
+    min: 0
+    max: 255
+  ct_light_temp:
+    name: CT Light Temp
+    min: 150
+    max: 500
+  rgbww_light_temp:
+    name: RGBWW Light Temp
+    min: 150
+    max: 500
+  rgb_light_h:
+    name: RGB Light H
+    min: 0
+    max: 360
+  rgb_light_s:
+    name: RGB Light S
+    min: 0
+    max: 100
+  rgbww_light_h:
+    name: RGBWW Light H
+    min: 0
+    max: 360
+  rgbww_light_s:
+    name: RGBWW Light S
+    min: 0
+    max: 100
+
 light:
   - platform: template
     lights:
       toggle_light:
         friendly_name: "Toggle Lights"
+        value_template: "{{ is_state('input_boolean.toggle_light', 'on') }}"
         turn_on:
-          service: system_log.write
+          service: input_boolean.turn_on
           data:
-            message: "Toggle Light turned on"
+            entity_id: input_boolean.toggle_light
         turn_off:
-          service: system_log.write
+          service: input_boolean.turn_off
           data:
-            message: "Toggle Light turned off"
+            entity_id: input_boolean.toggle_light
       dimmable_light:
         friendly_name: "Dimmable Lights"
+        level_template: "{{states('input_number.dimmable_light_bri') | int}}"
+        value_template: "{{ is_state('input_boolean.dimmable_light', 'on') }}"
         turn_on:
-          service: system_log.write
+          service: input_boolean.turn_on
           data:
-            message: "Dimmable Light turned on"
+            entity_id: input_boolean.dimmable_light
         turn_off:
-          service: system_log.write
+          service: input_boolean.turn_off
           data:
-            message: "Dimmable Light turned off"
+            entity_id: input_boolean.dimmable_light
         set_level:
-          service: system_log.write
+          service: input_number.set_value
           data:
-            message: "Dimmable Light brightness set to {{ brightness }}"
+            value: "{{ brightness }}"
+            entity_id: input_number.dimmable_light_bri
       ct_light:
         friendly_name: "CT Lights"
+        level_template: "{{ states('input_number.ct_light_bri') | int }}"
+        value_template: "{{ is_state('input_boolean.ct_light', 'on') }}"
+        temperature_template: "{{ states('input_number.ct_light_temp') | int }}"
         turn_on:
-          service: system_log.write
+          service: input_boolean.turn_on
           data:
-            message: "CT Light turned on"
+            entity_id: input_boolean.ct_light
         turn_off:
-          service: system_log.write
+          service: input_boolean.turn_off
           data:
-            message: "CT Light turned off"
+            entity_id: input_boolean.ct_light
         set_level:
-          service: system_log.write
+          service: input_number.set_value
           data:
-            message: "CT Light brightness set to {{ brightness }}"
+            value: "{{ brightness }}"
+            entity_id: input_number.ct_light_bri
         set_temperature:
-          service: system_log.write
+          service: input_number.set_value
           data:
-            message: "CT Light color temp set to {{ color_temp }}"
+            value: "{{ color_temp }}"
+            entity_id: input_number.ct_light_temp
       rgb_light:
         friendly_name: "RGB Lights"
+        level_template: "{{ states('input_number.rgb_light_bri') | int }}"
+        value_template: "{{ is_state('input_boolean.rgb_light', 'on') }}"
+        color_template: "({{states('input_number.rgb_light_h') | int}}, {{states('input_number.rgb_light_s') | int}})"
         turn_on:
-          service: system_log.write
+          service: input_boolean.turn_on
           data:
-            message: "RGB Light turned on"
+            entity_id: input_boolean.rgb_light
         turn_off:
-          service: system_log.write
+          service: input_boolean.turn_off
           data:
-            message: "RGB Light turned off"
+            entity_id: input_boolean.rgb_light
         set_level:
-          service: system_log.write
+          service: input_number.set_value
           data:
-            message: "RGB Light brightness set to {{ brightness }}"
+            value: "{{ brightness }}"
+            entity_id: input_number.rgb_light_bri
         set_color:
-          service: system_log.write
-          data:
-            message: "RGB Light h set to {{ h }}, s set to {{ s }}"
+          - service: input_number.set_value
+            data:
+              value: "{{ h }}"
+              entity_id: input_number.rgb_light_h
+          - service: input_number.set_value
+            data:
+              value: "{{ s }}"
+              entity_id: input_number.rgb_light_s
       rgbww_light:
         friendly_name: "RGBWW Lights"
+        level_template: "{{ states('input_number.rgbww_light_bri') | int }}"
+        value_template: "{{ is_state('input_boolean.rgbww_light', 'on') }}"
+        temperature_template: "{{ states('input_number.rgbww_light_temp') | int }}"
+        color_template: "({{states('input_number.rgbww_light_h') | int}}, {{states('input_number.rgbww_light_s') | int}})"
         turn_on:
-          service: system_log.write
+          service: input_boolean.turn_on
           data:
-            message: "RGBWW Light turned on"
+            entity_id: input_boolean.rgbww_light
         turn_off:
-          service: system_log.write
+          service: input_boolean.turn_off
           data:
-            message: "RGBWW Light turned off"
+            entity_id: input_boolean.rgbww_light
         set_level:
-          service: system_log.write
+          service: input_number.set_value
           data:
-            message: "RGBWW Light brightness set to {{ brightness }}"
+            value: "{{ brightness }}"
+            entity_id: input_number.rgbww_light_bri
         set_temperature:
-          service: system_log.write
+          service: input_number.set_value
           data:
-            message: "RGBWW Light color temp set to {{ color_temp }}"
+            value: "{{ color_temp }}"
+            entity_id: input_number.rgbww_light_temp
         set_color:
-          service: system_log.write
-          data:
-            message: "RGBWW Light h set to {{ h }}, s set to {{ s }}"
+          - service: input_number.set_value
+            data:
+              value: "{{ h }}"
+              entity_id: input_number.rgbww_light_h
+          - service: input_number.set_value
+            data:
+              value: "{{ s }}"
+              entity_id: input_number.rgbww_light_s
